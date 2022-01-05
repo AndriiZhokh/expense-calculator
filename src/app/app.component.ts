@@ -13,6 +13,7 @@ import { Product } from './interfaces/product';
 export class AppComponent implements OnInit {
   title = 'expense-calculator';
   public products$: Observable<Product[]> = this.storageService.getProducts();
+  public years$: Observable<number[]> = this.storageService.getYears();
 
   constructor(
     private storageService: StorageService,
@@ -29,7 +30,6 @@ export class AppComponent implements OnInit {
       const result = event.target?.result;
       const resultObj = parseDates(parseCSV(result) as { date: any }[]);
       
-      this.storageService.addProducts(resultObj);
       console.log(resultObj);
     }
 

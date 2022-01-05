@@ -1,12 +1,6 @@
 <mat-toolbar color="primary">
   <span>Expense Calculator</span>
 </mat-toolbar>
-<input type="file" id="csvFile">
-<button (click)="onSubmit()">Submit</button>
-<mat-list>
-  <mat-list-item *ngFor="let product of products$ | async" style="color: black">
-    <p>{{ product.date | date }} |</p>
-    <p>{{ product.name }} |</p>
-    <p>{{ product.total }}</p>
-  </mat-list-item>
-</mat-list>
+<div>
+  <button mat-button *ngFor="let year of years$ | async">{{ year }}</button>
+</div>
