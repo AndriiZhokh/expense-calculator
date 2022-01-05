@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "az-pet-project": {
+      "hosting": {
+        "expense-calculator": [
+          "az-pet-project"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "az-pet-project"
+  }
+}
