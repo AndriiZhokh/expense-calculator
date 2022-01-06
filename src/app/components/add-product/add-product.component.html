@@ -1,0 +1,37 @@
+<button
+  mat-raised-button
+  color="primary"
+  (click)="openForm()"
+>
+  Add Product
+</button>
+
+<mat-card>
+  <form style="display: flex; flex-direction: column;" [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input type="date" matInput formControlName="date">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input type="text" matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Weight In Grams</mat-label>
+      <input type="number" matInput formControlName="weightInGrams">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input type="number" matInput formControlName="price">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Number</mat-label>
+      <input type="number" matInput formControlName="number">
+    </mat-form-field>
+  </form>
+  <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+</mat-card>
