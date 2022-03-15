@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.storageService.getTotalSumForTheMonth().subscribe();
   }
 
   onSubmit(): void {
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit {
       const resultObj = parseDates(parseCSV(result) as { date: any }[]);
       
       console.log(resultObj);
+      this.storageService.addSortProductsByMonthsAndDays(resultObj as Product[]);
     }
 
     if (input.files?.length) {

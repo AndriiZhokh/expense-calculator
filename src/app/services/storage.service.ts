@@ -15,7 +15,7 @@ export class StorageService {
   getYears(): Observable<number[]> {
     return this.projectCollection.doc('user_1').collection('years').snapshotChanges().pipe(
       map(yearsDocs => yearsDocs.map(doc => doc.payload.doc.data().year)),
-      tap(console.log),
+      tap(data => console.log(data)),
       take(1),
     );
   }
@@ -24,6 +24,18 @@ export class StorageService {
     return this.afs.collection<Product>('expenseCalculator/user_1/products', ref => ref.orderBy('date', 'asc')).stateChanges().pipe(
       map(data => data.map(item => item.payload.doc.data())),
       map(products => products.map((product: Product) => ({...product, date: new Date(product.date)}))),
+    );
+  }
+
+  getTotalSumForTheMonth(): Observable<any> {
+    return this.projectCollection.doc('user_1').collection('years').doc('2022').collection('months').doc('0').collection('dates').snapshotChanges().pipe(
+      map(documents => documents.map(getDocumentData)),
+      map(documents => documents.map(doc => doc.total)),
+      tap(prices => console.log(prices)),
+      map(prices => prices.reduce((total, price) => total + price, 0)),
+      tap(data => {
+        console.log(data);
+      }),
     );
   }
 
@@ -41,7 +53,8 @@ export class StorageService {
         .doc(`${month}`)
         .collection('dates')
         .doc(`${day}`)
-        .set(product);
+        .collection('products')
+        .add(product);
     });
   }
   
