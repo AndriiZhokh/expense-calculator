@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, Observable } from 'rxjs';
 import { StorageService } from './services/storage.service';
 import { parseCSV, parseDates } from './utils/utils';
 import { Product } from './interfaces/product';
+import { Months } from './enums/month';
 
 @Component({
   selector: 'app-root',
@@ -12,15 +12,24 @@ import { Product } from './interfaces/product';
 })
 export class AppComponent implements OnInit {
   title = 'expense-calculator';
+  private currentMoment = new Date();
+  private currentYear: number = this.currentMoment.getFullYear();
+  private currentMonth: number = this.currentMoment.getMonth();
+
   public products$: Observable<Product[]> = this.storageService.getProducts();
   public years$: Observable<number[]> = this.storageService.getYears();
+  public months$: Observable<string[]> = this.storageService.getMonths(this.currentYear).pipe(
+    map((months: number[]) => months.map(month => Months[ month ]))
+  );
+  public dates$: Observable<number> = this.storageService.getDates(this.currentYear, this.currentMonth);
 
   constructor(
     private storageService: StorageService,
   ) {}
 
   ngOnInit(): void {
-    this.storageService.getTotalSumForTheMonth().subscribe();
+    this.storageService.getProductListForTheMonth().subscribe();
+    this.storageService.getMonths(this.currentYear).subscribe();
   }
 
   onSubmit(): void {
@@ -40,5 +49,20 @@ export class AppComponent implements OnInit {
       const file = input.files[0];
       reader.readAsText(file);
     }
+  }
+
+  onYearClick(year: number): void {
+    this.currentYear = year;
+
+    this.months$ = this.storageService.getMonths(year).pipe(
+      map((months: number[]) => months.map(month => Months[ month ]))
+    );
+  }
+
+  // TODO: Method doesn't work
+  onMonthClick(month: string): void {
+    this.currentMonth = Object.values(Months).indexOf(month);
+
+    this.dates$ = this.storageService.getDates(this.currentYear, this.currentMonth);
   }
 }

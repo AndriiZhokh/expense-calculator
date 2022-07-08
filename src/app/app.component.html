@@ -2,7 +2,18 @@
   <span>Expense Calculator</span>
 </mat-toolbar>
 <div>
-  <button mat-button *ngFor="let year of years$ | async">{{ year }}</button>
+  <button
+    *ngFor="let year of years$ | async"
+    mat-button
+    (click)="onYearClick(year)"
+  >{{ year }}</button>
+</div>
+<div>
+  <button
+    mat-button
+    *ngFor="let month of months$ | async"
+    (click)="onMonthClick(month)"
+  >{{ month }}</button>
 </div>
 <div>
   <app-add-product></app-add-product>
